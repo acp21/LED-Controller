@@ -1,0 +1,13 @@
+// LED-Control
+// Written by Adam Pohl
+
+#include <Arduino.h>
+#include <FastLED.h>
+
+void setup() {
+  // put your setup code here, to run once:
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+}
