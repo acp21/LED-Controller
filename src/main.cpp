@@ -66,58 +66,26 @@ void setup() {
     request->send(200, "text/plain", "Connected to LED Control");
   });
 
-  // Found on https://techtutorialsx.com/2018/10/12/esp32-http-web-server-handling-body-data/
-  // server.on(
-  //   "/post",
-  //   HTTP_POST,
-  //   [](AsyncWebServerRequest * request){},
-  //   NULL,
-  //   [](AsyncWebServerRequest * request, uint8_t *data, size_t len, size_t index, size_t total) {
-  //     //Handling function implementation
-  //     String info = "";
-  //     for(size_t i = 0; i < len; i++){
-  //       Serial.write(data[i]);
-  //       info.concat((char)data[i]);
-  //     }
-  //     // DynamicJsonBuffer jsonBuffer;
-  //     Serial.println("INFO STRING");
-  //     Serial.println(info);
-  //     DynamicJsonDocument document(1024);
-  //     serializeJson(document, info);
-  //     JsonObject obj = document.as<JsonObject>();
-  //     Serial.println("JSON data");
-  //     const char * name = obj["name"];
-  //     int age = obj["age"];
-  //     Serial.println(name);
-  //     Serial.println(age);
-  //     // Serial.println(info);
-  //     // Serial.println(name);
-  //     request->send(200);
-  // });
-
-
 // On POST request with body, create a dynamic json document and save data to a json object
   server.onRequestBody([](AsyncWebServerRequest * request, uint8_t *data, size_t len, size_t index, size_t total) {
     Serial.println("Received POST with body");
-    if (request->url() == "/post") {
-      
+    if (request->url() == "/post") { // Ensure that post request is going to /post endpoint
       DynamicJsonDocument document(1024);
       deserializeJson(document, (const char*)data);
       JsonObject root = document.as<JsonObject>();
-      if (root.containsKey("command")) {
-          const char * command = root["command"];
-          Serial.println(command); // Hello
-      }
-      else{
-        Serial.println("Root does not contain key 'Command'");
-      }
-      request->send(200, "text/plain", "end");
+      Serial.println("-----RECEIVED JSON-----");
+      serializeJsonPretty(document, Serial); // Print json to serial port
+      Serial.println(); // Print empty line for styling purposes
+      Serial.println("-----------------------");
+      const char * name = root["name"];
+      Serial.println(name);
+      request->send(200, "text/plain", "Json object received sucessfully");
     }
   });
   
-  FastLED.addLeds<WS2812B, 14, GRB>(leds, NUM_LEDS);
+  FastLED.addLeds<WS2812B, 14, GRB>(leds, NUM_LEDS); // Add leds to leds objecct
   
-  server.begin();
+  server.begin(); // Start server
 }
 
 // VERY IMPORTANT
