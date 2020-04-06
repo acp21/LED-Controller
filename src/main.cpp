@@ -44,32 +44,45 @@ void setup() {
   Serial.println(password);
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
+  credentials.close();
 
+  int attempt = millis();
   while(WiFi.status() != WL_CONNECTED){
       Serial.print(".");
-      delay(1000);
+      delay(500);
+      if(millis() - attempt >= 10000){
+        Serial.println("Could not connect to Wifi");
+        ESP.restart();
+      }
   }
+  Serial.println();
   Serial.println("Connected to WiFi!");
   Serial.print("Local IP:");
   Serial.println(WiFi.localIP());
 
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "text/plain", "Connected to LED Control");
+    request->send(200, "text/plain", "Connected to LED Control");
   });
-  server.begin();
 
-
+  server.on("/upload", HTTP_POST, [](AsyncWebServerRequest *request){
+    // Write post handler here
+  });
+  
   FastLED.addLeds<WS2812B, 14, GRB>(leds, NUM_LEDS);
   
+  server.begin();
 }
+
+// VERY IMPORTANT
+// Looping leds[i-1] = x causes ESP to crash on client connect for some bizarre reason
+// May also crash if referencing any out of bounds index, use ledsets instead
 
  void loop() {
       for(int i = 0; i < NUM_LEDS; i++){
         leds[i] = CRGB(255, 0, 255);
-        leds[i-1] = CRGB::Blue;
+        leds[i] = CRGB::Blue;
         FastLED.show();
         leds[i] = CRGB::Black;
-        leds[i-1] = CRGB::Black;
-        delay(25);
+        delay(30);
       }
   }
