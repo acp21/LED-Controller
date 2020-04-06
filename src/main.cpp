@@ -4,6 +4,8 @@
 #define FASTLED_ESP8266_RAW_PIN_ORDER
 
 #include <Arduino.h>
+#include <stdio.h>
+#include <string.h>
 #include <FastLED.h>
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
@@ -51,7 +53,7 @@ void setup() {
       Serial.print(".");
       delay(500);
       if(millis() - attempt >= 10000){
-        Serial.println("Could not connect to Wifi");
+        Serial.println("Could not connect to Wifi, restarting");
         ESP.restart();
       }
   }
@@ -64,8 +66,53 @@ void setup() {
     request->send(200, "text/plain", "Connected to LED Control");
   });
 
-  server.on("/upload", HTTP_POST, [](AsyncWebServerRequest *request){
-    // Write post handler here
+  // Found on https://techtutorialsx.com/2018/10/12/esp32-http-web-server-handling-body-data/
+  // server.on(
+  //   "/post",
+  //   HTTP_POST,
+  //   [](AsyncWebServerRequest * request){},
+  //   NULL,
+  //   [](AsyncWebServerRequest * request, uint8_t *data, size_t len, size_t index, size_t total) {
+  //     //Handling function implementation
+  //     String info = "";
+  //     for(size_t i = 0; i < len; i++){
+  //       Serial.write(data[i]);
+  //       info.concat((char)data[i]);
+  //     }
+  //     // DynamicJsonBuffer jsonBuffer;
+  //     Serial.println("INFO STRING");
+  //     Serial.println(info);
+  //     DynamicJsonDocument document(1024);
+  //     serializeJson(document, info);
+  //     JsonObject obj = document.as<JsonObject>();
+  //     Serial.println("JSON data");
+  //     const char * name = obj["name"];
+  //     int age = obj["age"];
+  //     Serial.println(name);
+  //     Serial.println(age);
+  //     // Serial.println(info);
+  //     // Serial.println(name);
+  //     request->send(200);
+  // });
+
+
+// On POST request with body, create a dynamic json document and save data to a json object
+  server.onRequestBody([](AsyncWebServerRequest * request, uint8_t *data, size_t len, size_t index, size_t total) {
+    Serial.println("Received POST with body");
+    if (request->url() == "/post") {
+      
+      DynamicJsonDocument document(1024);
+      deserializeJson(document, (const char*)data);
+      JsonObject root = document.as<JsonObject>();
+      if (root.containsKey("command")) {
+          const char * command = root["command"];
+          Serial.println(command); // Hello
+      }
+      else{
+        Serial.println("Root does not contain key 'Command'");
+      }
+      request->send(200, "text/plain", "end");
+    }
   });
   
   FastLED.addLeds<WS2812B, 14, GRB>(leds, NUM_LEDS);
