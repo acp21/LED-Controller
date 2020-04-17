@@ -18,6 +18,9 @@
 #include <SPI.h>
 #include <FS.h>
 
+// My animations
+#include "animations/animation.h"
+#include "animations/trail.h"
 // Constant defintions
 #define NUM_LEDS 120
 #define DATA_PIN 14
@@ -25,58 +28,21 @@
 using namespace std;
 
 // Create leds object
-CRGB leds[NUM_LEDS];
+// CRGB leds[NUM_LEDS];
 
-CRGBArray<NUM_LEDS> ledset;
+CRGBArray<NUM_LEDS> ledArr;
+
+
+
+Trail trail = Trail(2, 5, 0, NUM_LEDS, 5, ledArr);
+
 
 AsyncWebServer server(80);
-
-void red(){
-for(int i = 0; i < NUM_LEDS; i++){
-        leds[i] = CRGB(255, 0, 255);
-        leds[i] = CRGB::Red;
-        FastLED.show();
-        leds[i] = CRGB::Black;
-        delay(30);
-        // return 0;
-    }
-}
-
-void blue(){
-for(int i = 0; i < NUM_LEDS; i++){
-        Serial.println("Loop");
-        leds[i] = CRGB(255, 0, 255);
-        leds[i] = CRGB::Blue;
-        FastLED.show();
-        leds[i] = CRGB::Black;
-        delay(30);
-    }
-}
-
-void green(){
-for(int i = 0; i < NUM_LEDS; i++){
-        leds[i] = CRGB(255, 0, 255);
-        leds[i] = CRGB::Green;
-        FastLED.show();
-        leds[i] = CRGB::Black;
-        delay(30);
-    }
-}
-
-// Following code is needed to setup function call maps
-
-typedef void (*FnPtr)(void);
-std::map<std::string, FnPtr> myMap;
-
 
 
 void setup() {
 
   Serial.begin(9600);
-  
-  myMap["red"] = red;
-  myMap["blue"] = blue;
-  myMap["green"] = green;
   
   if(!SPIFFS.begin()){
     Serial.println("SPIFFS ERROR");
@@ -103,6 +69,7 @@ void setup() {
       delay(500);
       if(millis() - attempt >= 20000){
         Serial.println("Could not connect to Wifi, restarting");
+        break;
         ESP.restart();
       }
   }
@@ -129,19 +96,18 @@ void setup() {
   });
 
   
-  FastLED.addLeds<WS2812B, 14, GRB>(ledset, NUM_LEDS);
-  FastLED.addLeds<WS2812B, 14, GRB>(leds, NUM_LEDS); // Add leds to leds objecct
+  FastLED.addLeds<WS2812B, 14, GRB>(ledArr, NUM_LEDS);
+
+  
   
   server.begin(); // Start server
 }
 
 // VERY IMPORTANT
-// Looping leds[i-1] = x causes ESP to crash on client connect for some bizarre reason
-// May also crash if referencing any out of bounds index, use ledsets instead
+// Looping leds[i-1] = x causes ESP to crash on client connect for unkown reason
+// May also crash if referencing any out of bounds index, use CRGBArray instead
 
-// Testing color change functions
 
 void loop() {
-  Serial.println("Looping");
-  leds[3] = CRGB::Red;
+  trail.next();
 }
