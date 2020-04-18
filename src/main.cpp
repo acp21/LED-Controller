@@ -27,14 +27,13 @@
 
 using namespace std;
 
-// Create leds object
-// CRGB leds[NUM_LEDS];
 
 CRGBArray<NUM_LEDS> ledArr;
+CRGBArray<NUM_LEDS> *ptr;
 
 
 
-Trail trail = Trail(2, 5, 0, NUM_LEDS, 5, ledArr);
+
 
 
 AsyncWebServer server(80);
@@ -97,17 +96,23 @@ void setup() {
 
   
   FastLED.addLeds<WS2812B, 14, GRB>(ledArr, NUM_LEDS);
+  ptr = &ledArr;
 
   
   
   server.begin(); // Start server
 }
 
-// VERY IMPORTANT
+// Currently unused
+// Trail trail = Trail(2, 5, 0, NUM_LEDS, 5, ptr);
+
 // Looping leds[i-1] = x causes ESP to crash on client connect for unkown reason
 // May also crash if referencing any out of bounds index, use CRGBArray instead
 
 
 void loop() {
-  trail.next();
+  
+  Serial.println("Loop");
+  *ptr[5] = CRGB::Blue;  // THIS SHOULD MAKE 5th LED turn on, however it does not
+  FastLED.show();
 }
