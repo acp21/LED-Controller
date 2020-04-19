@@ -28,15 +28,6 @@
 
 using namespace std;
 
-
-CRGBArray<NUM_LEDS> ledArr;
-CRGBArray<NUM_LEDS> *ptr;
-
-CRGBArray<120> myLedArr;
-
-
-
-
 AsyncWebServer server(80);
 
 

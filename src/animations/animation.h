@@ -21,7 +21,7 @@ class Animation{
     bool current;
     int prevStep;
     Animation * nextAnim;
-    CRGBArray<NUM_LEDS> leds;
+
     // Other stuff
 
     // Each animation will have it's own overloaded next() function
