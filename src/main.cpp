@@ -95,8 +95,8 @@ void setup() {
   server.begin(); // Start server
 }
 
-// Currently unused
-Trail trail = Trail(2, 5, 0, NUM_LEDS, 5, 1);
+Trail trail = Trail(2, 5, 0, NUM_LEDS, 171, 1, 255);
+
 
 // Looping leds[i-1] = x causes ESP to crash on client connect for unkown reason
 // May also crash if referencing any out of bounds index, use CRGBArray instead

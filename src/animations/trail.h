@@ -10,8 +10,11 @@ class Trail : public Animation{
     int currentPixel;
     int wait;
     int jump; // Distance in LEDS lit leds jump after each step
+    int brightness;
+    bool fade;
+    int fadeTime;
 
-    Trail(int pixelWidth_, int totalTime_, int startingLed_, int range_, int hue_, int jump_);
+    Trail(int pixelWidth_, int totalTime_, int startingLed_, int range_, int hue_, int jump_, int brightness_, bool fade_=false, int fadeTime = 2);
     void next();
     void calculateWait();
 
