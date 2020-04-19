@@ -1,7 +1,7 @@
 // #include "main.cpp"
 #include "trail.h"
 
-Trail::Trail(int pixelWidth_, int totalTime_, int startingLed_, int range_, int hue_, CRGBArray<NUM_LEDS> &leds_){
+Trail::Trail(int pixelWidth_, int totalTime_, int startingLed_, int range_, int hue_){
     pixelWidth = pixelWidth_;
     totalTime = totalTime_;
     startingLed = startingLed_;
@@ -9,7 +9,6 @@ Trail::Trail(int pixelWidth_, int totalTime_, int startingLed_, int range_, int 
     hue = hue_;
     currentPixel = startingLed_;
     prevStep = millis();
-    leds = leds_;
 
     calculateWait();
 }
