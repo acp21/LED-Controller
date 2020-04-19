@@ -19,6 +19,7 @@
 #include <FS.h>
 
 // My animations
+#include "animations/pattern.h"
 #include "animations/animation.h"
 #include "animations/trail.h"
 // Constant defintions
@@ -31,7 +32,7 @@ using namespace std;
 CRGBArray<NUM_LEDS> ledArr;
 CRGBArray<NUM_LEDS> *ptr;
 
-
+CRGBArray<120> myLedArr;
 
 
 
@@ -95,16 +96,16 @@ void setup() {
   });
 
   
-  FastLED.addLeds<WS2812B, 14, GRB>(ledArr, NUM_LEDS);
-  ptr = &ledArr;
+  // FastLED.addLeds<WS2812B, 14, GRB>(ledArr, NUM_LEDS);
+  // ptr = &ledArr;
 
   
-  
+  FastLED.addLeds<WS2812B, 14, GRB>(myLedArr, NUM_LEDS);
   server.begin(); // Start server
 }
 
 // Currently unused
-// Trail trail = Trail(2, 5, 0, NUM_LEDS, 5, ptr);
+Trail trail = Trail(2, 5, 0, NUM_LEDS, 5);
 
 // Looping leds[i-1] = x causes ESP to crash on client connect for unkown reason
 // May also crash if referencing any out of bounds index, use CRGBArray instead
@@ -112,7 +113,11 @@ void setup() {
 
 void loop() {
   
-  Serial.println("Loop");
-  *ptr[5] = CRGB::Blue;  // THIS SHOULD MAKE 5th LED turn on, however it does not
-  FastLED.show();
+  // Serial.println("Loop");
+  // Serial.println("Loop");
+  trail.next();
+  // FastLED.show();
+  // trail.next();
+  // *ptr[5] = CRGB::Blue;  // THIS SHOULD MAKE 5th LED turn on, however it does not
+  // FastLED.show();
 }

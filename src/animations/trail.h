@@ -10,7 +10,7 @@ class Trail : public Animation{
     int currentPixel;
     int wait;
 
-    Trail(int pixelWidth_, int totalTime_, int startingLed_, int range_, int hue_, CRGBArray<NUM_LEDS>* leds);
+    Trail(int pixelWidth_, int totalTime_, int startingLed_, int range_, int hue_, CRGBArray<NUM_LEDS> &leds);
     void next();
     void calculateWait();
 

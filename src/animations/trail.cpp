@@ -1,6 +1,7 @@
+// #include "main.cpp"
 #include "trail.h"
 
-Trail::Trail(int pixelWidth_, int totalTime_, int startingLed_, int range_, int hue_, CRGBArray<NUM_LEDS>* leds_){
+Trail::Trail(int pixelWidth_, int totalTime_, int startingLed_, int range_, int hue_, CRGBArray<NUM_LEDS> &leds_){
     pixelWidth = pixelWidth_;
     totalTime = totalTime_;
     startingLed = startingLed_;
@@ -8,20 +9,23 @@ Trail::Trail(int pixelWidth_, int totalTime_, int startingLed_, int range_, int 
     hue = hue_;
     currentPixel = startingLed_;
     prevStep = millis();
-    CRGBArray<NUM_LEDS> *leds = leds_;
+    leds = leds_;
 
     calculateWait();
 }
 
 void Trail::next(){
-    // &leds[10] = CRGB::Blue;
-    FastLED.show();
+    // myLedArr[1] = CRGB::Blue;
+    // FastLED.show();
+    // Serial.println("Trail");
+    wait = 1000;
     if(millis() - prevStep >= wait){
-        leds(currentPixel + 1, currentPixel + range) = CRGB::Red;
+        myLedArr(currentPixel, currentPixel + pixelWidth) = CRGB::Red;
         FastLED.show();
-        leds[currentPixel] = CRGB::Black;
+        myLedArr(currentPixel, currentPixel + pixelWidth) = CRGB::Black;
         currentPixel++;
         Serial.println("Ran trail.next");
+        prevStep = millis();
     }
 }
 

@@ -3,6 +3,7 @@
 
 #include <ArduinoJson.h>
 #include <FastLED.h>
+#include "pattern.h"
 
 #define NUM_LEDS 120
 
