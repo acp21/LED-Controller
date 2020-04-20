@@ -14,7 +14,7 @@ class Trail : public Animation{
     bool fade;
     int fadeTime;
 
-    Trail(int pixelWidth_, int totalTime_, int startingLed_, int range_, int hue_, int jump_, int brightness_, bool fade_=false, int fadeTime = 2);
+    Trail(int pixelWidth_, int totalTime_, int cycleTime_, int startingLed_, int range_, int hue_, int jump_, int brightness_, bool fade_=false, int fadeTime = 2);
     void next();
     void calculateWait();
 

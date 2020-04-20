@@ -4,7 +4,7 @@
 #include <FastLED.h>
 #include "animation.h"
 
-extern CRGBArray<120> myLedArr;
+extern CRGBArray<120> ledArr;
 
 // Pattern acts as a wrapper class for Animation
 // It provides a central point to get important data

@@ -91,11 +91,11 @@ void setup() {
   // ptr = &ledArr;
 
   
-  FastLED.addLeds<WS2812B, 14, GRB>(myLedArr, NUM_LEDS);
+  FastLED.addLeds<WS2812B, 14, GRB>(ledArr, NUM_LEDS);
   server.begin(); // Start server
 }
 
-Trail trail = Trail(2, 5, 0, NUM_LEDS, 171, 1, 255);
+Trail trail = Trail(2, 10, 3, 0, NUM_LEDS, 171, 1, 255);
 
 
 // Looping leds[i-1] = x causes ESP to crash on client connect for unkown reason
