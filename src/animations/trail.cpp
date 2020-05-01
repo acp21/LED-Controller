@@ -22,7 +22,8 @@ Trail::Trail(int pixelWidth_, int totalTime_, int cycleTime_, int startingLed_, 
     calculateWait();
 }
 void Trail::next(){
-    if(millis() - prevStep >= wait){
+    if(Animation::forward() == true){
+        Serial.println("Stepped");
         ledArr(currentPixel, currentPixel + pixelWidth) = CHSV(hue, 255, brightness);
         FastLED.show();
         // If fade == true, fade out, else, turn off immediately
@@ -44,6 +45,7 @@ void Trail::next(){
         finish();
     }
 }
+
 
 void Trail::calculateWait(){
    wait = cycleTime / range;

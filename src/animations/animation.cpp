@@ -1,9 +1,22 @@
 #include "animation.h"
 
-
-void Animation::forward(){
+// Each animation runs this to check if next step is needed
+bool Animation::forward(){
+    Serial.println("Called");
     if(completed){
         // Run this code if animation has been completed
+        return false;
+    }
+    // If animation is not completed, call next()
+    else{
+        if(millis() - prevStep >= wait){
+            //Serial.println("Returning True");
+            return true;
+            
+        }
+        else{
+            return false;
+        }
     }
 }
 
@@ -13,3 +26,12 @@ void Animation::finish(){
         timeStarted = millis();
     }
 }
+
+
+// Check following link
+// https://www.learncpp.com/cpp-tutorial/11-6a-calling-inherited-functions-and-overriding-behavior/
+// Section adding to existing functionality
+
+// void Animation::next(){
+//     Serial.println("I shouldnt see this");
+// }

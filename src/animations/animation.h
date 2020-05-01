@@ -28,7 +28,7 @@ class Animation{
 
     // Each animation has same forward() function, it does things that all animations need to check
     // This could include checking if the current bool is true or not or if the animation has been completed
-    void forward();
+    bool forward();
 
     // finish() will be used to set things such as completed bool to true
     void finish();
