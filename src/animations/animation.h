@@ -22,6 +22,7 @@ class Animation{
     int wait;        // Time inbetween each individual animation step
     bool current;    // Boolean marking if particular animation is currently being played
     bool completed;  // True if this animation is already completed and should not be run anymore
+    bool firstLoop;
     bool playNext;   // Boolean marking that next animation should play simultaneously with this one
     int prevStep;    // Time of previous step
     Animation * nextAnim; // Pointer to next animation in the list
@@ -46,6 +47,8 @@ class Animation{
 
     // Calculates amount of time in between each step of animation
     void calculateWait();
+
+    void first();
 };
 
 #endif

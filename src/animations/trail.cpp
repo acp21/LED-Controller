@@ -18,11 +18,13 @@ Trail::Trail(int pixelWidth_, int totalTime_, int cycleTime_, int startingLed_, 
     brightness = brightness_;
     fade = fade_;
     fadeTime = fadeTime_;
+    firstLoop = true;
 
     calculateWait();
 }
 void Trail::next(){
-    if(Animation::forward() == true){
+    Animation::first();
+    if(millis() - prevStep >= wait && !completed){
         Serial.println("Stepped");
         ledArr(currentPixel, currentPixel + pixelWidth) = CHSV(hue, 255, brightness);
         FastLED.show();
@@ -42,7 +44,7 @@ void Trail::next(){
         }
         // Serial.println(currentPixel);
         prevStep = millis();
-        finish();
+        Animation::finish();
     }
 }
 

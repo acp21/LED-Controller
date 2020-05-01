@@ -10,7 +10,11 @@ bool Animation::forward(){
     // If animation is not completed, call next()
     else{
         if(millis() - prevStep >= wait){
-            //Serial.println("Returning True");
+            // Serial.print("PREV");
+            // Serial.println(prevStep);
+            // Serial.print("WAIT");
+            // Serial.print
+            // Serial.println("Returning True");
             return true;
             
         }
@@ -24,9 +28,18 @@ void Animation::finish(){
     if(millis() - timeStarted >= totalTime){
         Serial.println("Animation finished!");
         timeStarted = millis();
+        completed = true;
+        ledArr(startingLed, range) = CRGB::Black;
+        FastLED.show();
     }
 }
 
+void Animation::first(){
+    if(firstLoop){
+        timeStarted = millis();
+        firstLoop = false;
+    }
+}
 
 // Check following link
 // https://www.learncpp.com/cpp-tutorial/11-6a-calling-inherited-functions-and-overriding-behavior/
