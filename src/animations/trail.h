@@ -10,7 +10,6 @@ class Trail : public Animation{
     int currentPixel;
     int wait;
     int jump; // Distance in LEDS lit leds jump after each step
-    int brightness;
     bool fade;
     int fadeTime;
 

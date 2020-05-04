@@ -22,6 +22,7 @@
 #include "animations/pattern.h"
 #include "animations/animation.h"
 #include "animations/trail.h"
+#include "animations/fade.h"
 // Constant defintions
 #define NUM_LEDS 120
 #define DATA_PIN 14
@@ -96,6 +97,7 @@ void setup() {
 }
 
 Trail trail = Trail(2, 10, 3, 0, NUM_LEDS, 171, 1, 255);
+Fade fade = Fade(0, 15, 10, 7);
 
 
 // Looping leds[i-1] = x causes ESP to crash on client connect for unkown reason
@@ -106,6 +108,7 @@ void loop() {
   
   // Serial.println("Loop");
   // Serial.println("Loop");
+  // fade.next();
   trail.next();
   // FastLED.show();
   // trail.next();

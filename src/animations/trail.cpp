@@ -48,7 +48,7 @@ void Trail::next(){
     }
 }
 
-
+// Find how long between each "step"
 void Trail::calculateWait(){
    wait = cycleTime / range;
 }

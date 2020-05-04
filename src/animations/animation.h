@@ -19,6 +19,7 @@ class Animation{
     int startingLed; // First led in strip to play animation
     int range;       // Sequential range of all leds to play animation
     int hue;         // Hue to play animation at 
+    int brightness;
     int wait;        // Time inbetween each individual animation step
     bool current;    // Boolean marking if particular animation is currently being played
     bool completed;  // True if this animation is already completed and should not be run anymore
