@@ -2,12 +2,12 @@
 
 // CRGBArray<120> ledArr; // Refrence to extern CRGBArray
 
-Fade::Fade(int startingLed_, int range_, int totalTime_, int cycleTime_, int brightness_, bool rgb_, int startingColor_, int endingColor_, bool playNext){
+Fade::Fade(int startingLed_, int range_, int totalTime_, int cycleTime_, int brightness_, bool rgb_, int startingColor_, int endingColor_, bool playNext_){
     startingLed = startingLed_;
     range = range_;
     totalTime = totalTime_ * 1000;
     cycleTime = cycleTime_ * 1000;
-    playNext = playNext;
+    playNext = playNext_;
     brightness = brightness_;
     rgb = rgb_;
     startingColor = startingColor_;
@@ -26,7 +26,7 @@ void Fade::next(){
         ledArr(startingLed, range) = CHSV(hue, 255, brightness);
         if(rgb){
             hue++;
-            if(hue > 255){
+            if(hue >= 255){
                 hue = 0;
             }
         }
@@ -35,7 +35,7 @@ void Fade::next(){
             if(up){
                 hue++;
                 // If hue passes endingColor
-                if(hue > endingColor){
+                if(hue >= endingColor){
                     // Switch direction
                     up = false;
                     down = true;
@@ -45,7 +45,7 @@ void Fade::next(){
             else if(down){
                 hue--;
                 // If hue passes startingColor
-                if(hue < startingColor){
+                if(hue <= startingColor){
                     // Switch direction
                     up = true;
                     down = false;
@@ -60,5 +60,5 @@ void Fade::next(){
 }
 
 void Fade::calculateWait(){
-    wait = cycleTime / (endingColor - startingColor);
+    wait = cycleTime / ((endingColor - startingColor) * 2);
 }
