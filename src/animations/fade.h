@@ -8,10 +8,10 @@ class Fade : public Animation{
 
     public:
 
-    Fade(int startingLed_ = 0, int range_ = NUM_LEDS, int totalTime_ = 5, int cycleTime_ = 5, bool playNext_ = false);
+    Fade(int startingLed_ = 0, int range_ = NUM_LEDS, int totalTime_ = 5, int cycleTime_ = 5, int brightness = 255, bool playNext_ = false);
 
     void next();
-
+    void calculateWait();
     
 };
 
