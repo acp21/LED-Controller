@@ -1,10 +1,11 @@
 #include "breathe.h"
 
-Breathe::Breathe(int startingLed_, int range_, int totalTime_, int cycleTime_, bool limited_, int startingBrightness_, int endingBrightness_, bool playNext_){
+Breathe::Breathe(int startingLed_, int range_, int totalTime_, int cycleTime_, int hue_, bool limited_, int startingBrightness_, int endingBrightness_, bool playNext_){
     startingLed = startingLed_;
     range = range_;
     totalTime = totalTime_ * 1000;
     cycleTime = cycleTime_ * 1000;
+    hue = hue_;
     playNext = playNext_;
     startingBrightness = startingBrightness_;
     endingBrightness = endingBrightness_;
@@ -20,7 +21,7 @@ Breathe::Breathe(int startingLed_, int range_, int totalTime_, int cycleTime_, b
 void Breathe::next(){
     Animation::first();
     if(millis() - prevStep >= wait && !completed){
-        ledArr(startingLed, range) = CHSV(CRGB::Red, 255, brightness);
+        ledArr(startingLed, range) = CHSV(hue, 255, brightness);
         if(up){
             brightness++;
             if(brightness >= endingBrightness){

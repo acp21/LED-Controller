@@ -17,7 +17,7 @@ class Breathe : public Animation{
     // Is birghtness currently decreasing?
     bool down;
 
-    Breathe(int startingLed_ = 0, int range_ = NUM_LEDS, int totalTime_ = 5, int cycleTime_ = 5, bool limited_ = false, int startingBrightness_ = 0, int endingBrightness_ = 255, bool playNext = false);
+    Breathe(int startingLed_ = 0, int range_ = NUM_LEDS, int totalTime_ = 5, int cycleTime_ = 5, int hue_ = 0, bool limited_ = false, int startingBrightness_ = 0, int endingBrightness_ = 255, bool playNext = false);
 
     void next();
     void calculateWait();
