@@ -1,3 +1,5 @@
+// THIS FILE IS NOT COMPLETE
+
 #include "sparkle.h"
 #include <random>
 
@@ -46,7 +48,8 @@ void Sparkle::dim(){
 }
 
 int Sparkle::calculateDim(){
-
+    int bright = calculateBright();
+    
     return 0;
 }
 

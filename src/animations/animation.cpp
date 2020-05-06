@@ -1,6 +1,7 @@
 #include "animation.h"
 
 // Each animation runs this to check if next step is needed
+// This function is currently unused
 bool Animation::forward(){
     Serial.println("Called");
     if(completed){
@@ -10,13 +11,7 @@ bool Animation::forward(){
     // If animation is not completed, call next()
     else{
         if(millis() - prevStep >= wait){
-            // Serial.print("PREV");
-            // Serial.println(prevStep);
-            // Serial.print("WAIT");
-            // Serial.print
-            // Serial.println("Returning True");
             return true;
-            
         }
         else{
             return false;
@@ -24,6 +19,8 @@ bool Animation::forward(){
     }
 }
 
+// Will check if totalTime has been elapsed
+// If so, darken all leds in animation range and set completed = true
 void Animation::finish(){
     if(millis() - timeStarted >= totalTime){
         Serial.println("Animation finished!");
@@ -34,6 +31,7 @@ void Animation::finish(){
     }
 }
 
+// Called firs time animation is looped through to properly establish start time
 void Animation::first(){
     if(firstLoop){
         timeStarted = millis();
@@ -41,10 +39,10 @@ void Animation::first(){
     }
 }
 
+void Animation::next(){
+    nextAnim -> next();
+}
+
 // Check following link
 // https://www.learncpp.com/cpp-tutorial/11-6a-calling-inherited-functions-and-overriding-behavior/
 // Section adding to existing functionality
-
-// void Animation::next(){
-//     Serial.println("I shouldnt see this");
-// }

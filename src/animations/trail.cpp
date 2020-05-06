@@ -1,4 +1,3 @@
-
 #include "trail.h"
 
 
@@ -22,6 +21,7 @@ Trail::Trail(int pixelWidth_, int totalTime_, int cycleTime_, int startingLed_, 
 
     calculateWait();
 }
+
 void Trail::next(){
     Animation::first();
     if(millis() - prevStep >= wait && !completed){

@@ -7,6 +7,9 @@
 
 #define NUM_LEDS 120
 
+// Animation is an abstract class for all other animation types
+// Animation is only ever created once, to serve as a global head to the animation linked list
+// All animation types inherit from this primary animation object
 
 class Animation{
     // Animation is an abstract class that will be a superclass for individual animation types
@@ -48,7 +51,8 @@ class Animation{
 
     // Calculates amount of time in between each step of animation
     void calculateWait();
-
+    
+    // Currently unused
     void first();
 };
 

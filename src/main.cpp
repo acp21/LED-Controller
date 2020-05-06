@@ -23,17 +23,24 @@
 #include "animations/animation.h"
 #include "animations/trail.h"
 #include "animations/fade.h"
+#include "animations/breathe.h"
+
 // Constant defintions
 #define NUM_LEDS 120
 #define DATA_PIN 14
 
 using namespace std;
 
+// Create webserver
 AsyncWebServer server(80);
+
+// Head of animation linked list
+// Each animation will be appended in linked list
+Animation head;
 
 
 void setup() {
-
+  // Initialize Serial Monitor
   Serial.begin(9600);
   
   if(!SPIFFS.begin()){
@@ -42,6 +49,7 @@ void setup() {
   }
   Serial.println("Spiffs Mounted");
 
+  // Get wifi credentials from json file in board memory
   const int capacity = JSON_OBJECT_SIZE(10);
   StaticJsonDocument<capacity> doc;
   File credentials = SPIFFS.open("/pass.json", "r");
@@ -55,14 +63,14 @@ void setup() {
   WiFi.begin(ssid, password);
   credentials.close();
 
+  // Used to check for WiFi timeout
   int attempt = millis();
+  // Attempt to connect to WiFi
   while(WiFi.status() != WL_CONNECTED){
       Serial.print(".");
       delay(500);
       if(millis() - attempt >= 20000){
-        Serial.println("Could not connect to Wifi, restarting");
-        break;
-        ESP.restart();
+        Serial.println("Could not connect to WiFi");
       }
   }
   Serial.println();
@@ -71,6 +79,9 @@ void setup() {
   Serial.println(WiFi.localIP());
 
 // On POST request with body, create a dynamic json document and save data to a json object
+// Json object will contain an array of objects, each object having a string which defines its type, as well as parameters specific to that type
+// Based on the type, a constructor will be called to create one of many animation objects, all of which are inherited from Animation
+// These will then be added to a  linked list and looped through
   server.onRequestBody([](AsyncWebServerRequest * request, uint8_t *data, size_t len, size_t index, size_t total) {
     Serial.println("Received POST with body");
     if (request->url() == "/post") { // Ensure that post request is going to /post endpoint
@@ -82,36 +93,21 @@ void setup() {
       Serial.println(); // Print empty line for styling purposes
       Serial.println("-----------------------");
       request->send(200, "text/plain", "Json object received sucessfully");
-      const char * color = root["color"];
-      // myMap[color](); // Line currently not working
     }
   });
 
-  
-  // FastLED.addLeds<WS2812B, 14, GRB>(ledArr, NUM_LEDS);
-  // ptr = &ledArr;
-
-  
+  // Add leds to FastLED object
   FastLED.addLeds<WS2812B, 14, GRB>(ledArr, NUM_LEDS);
   server.begin(); // Start server
 }
 
+// Example of creating different types of animation objects | Lines unused
 Trail trail = Trail(2, 10, 3, 0, NUM_LEDS, 171, 1, 255);
-Fade fade = Fade(0, 15, 10, 7);
-
-
-// Looping leds[i-1] = x causes ESP to crash on client connect for unkown reason
-// May also crash if referencing any out of bounds index, use CRGBArray instead
-
+Fade fade = Fade(0, 15, 50, 7, 200);
+Breathe breathe = Breathe(0, 15, 50, 5, CRGB::Blue);
 
 void loop() {
-  
-  // Serial.println("Loop");
-  // Serial.println("Loop");
-  // fade.next();
-  trail.next();
-  // FastLED.show();
-  // trail.next();
-  // *ptr[5] = CRGB::Blue;  // THIS SHOULD MAKE 5th LED turn on, however it does not
-  // FastLED.show();
+  // Calls next() on head object
+  // This simply calls next() on the next object in the linked list
+  head.next();
 }

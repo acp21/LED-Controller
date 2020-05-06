@@ -1,6 +1,5 @@
 #include "fade.h"
 
-// CRGBArray<120> ledArr; // Refrence to extern CRGBArray
 
 Fade::Fade(int startingLed_, int range_, int totalTime_, int cycleTime_, int brightness_, bool rgb_, int startingColor_, int endingColor_, bool playNext_){
     startingLed = startingLed_;
