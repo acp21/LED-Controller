@@ -34,9 +34,12 @@ using namespace std;
 // Create webserver
 AsyncWebServer server(80);
 
+// Vector containing all animations to be looped through
+vector<Animation *> animations;
+
 // Head of animation linked list
 // Each animation will be appended in linked list
-Animation head;
+//Animation head;
 
 
 void setup() {
@@ -71,6 +74,7 @@ void setup() {
       delay(500);
       if(millis() - attempt >= 20000){
         Serial.println("Could not connect to WiFi");
+        break;
       }
   }
   Serial.println();
@@ -99,9 +103,15 @@ void setup() {
   // Add leds to FastLED object
   FastLED.addLeds<WS2812B, 14, GRB>(ledArr, NUM_LEDS);
   server.begin(); // Start server
+
+  //Testing vectors
+  Fade * fadeptr = new Fade(0, 15, 50, 7, 200);
+  animations.push_back(fadeptr);
+  
 }
 
 // Example of creating different types of animation objects | Lines unused
+
 Trail trail = Trail(2, 10, 3, 0, NUM_LEDS, 171, 1, 255);
 Fade fade = Fade(0, 15, 50, 7, 200);
 Breathe breathe = Breathe(0, 15, 50, 5, CRGB::Blue);
@@ -109,5 +119,8 @@ Breathe breathe = Breathe(0, 15, 50, 5, CRGB::Blue);
 void loop() {
   // Calls next() on head object
   // This simply calls next() on the next object in the linked list
-  head.next();
+  Serial.println("Loop");
+  animations.front() -> next();
 }
+
+// Polymorphic vectors http://www.cplusplus.com/forum/general/17754/

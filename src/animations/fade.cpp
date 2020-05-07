@@ -15,12 +15,17 @@ Fade::Fade(int startingLed_, int range_, int totalTime_, int cycleTime_, int bri
         up = true;
         down = false;
     }
-
+    completed = false;
+    prevStep = millis();
     calculateWait();
 };
 
+// Check fade.h to find this is virtual function, also check animation.h
 void Fade::next(){
     Animation::first();
+    Serial.println("Ran");
+    // ledArr(startingLed,range) = CHSV(CRGB::Red, 255, 255);
+    // FastLED.show();
     if(millis() - prevStep >= wait && !completed){
         ledArr(startingLed, range) = CHSV(hue, 255, brightness);
         if(rgb){

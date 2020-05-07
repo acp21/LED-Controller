@@ -34,14 +34,15 @@ void Animation::finish(){
 // Called firs time animation is looped through to properly establish start time
 void Animation::first(){
     if(firstLoop){
+        Serial.println("First loop");
         timeStarted = millis();
         firstLoop = false;
     }
 }
 
-void Animation::next(){
-    nextAnim -> next();
-}
+// void Animation::next(){
+//     nextAnim -> next();
+// }
 
 // Check following link
 // https://www.learncpp.com/cpp-tutorial/11-6a-calling-inherited-functions-and-overriding-behavior/

@@ -31,6 +31,8 @@ class Animation{
     int prevStep;    // Time of previous step
     Animation * nextAnim; // Pointer to next animation in the list
 
+
+    virtual ~Animation() {}
     // Each animation has same forward() function, it does things that all animations need to check
     // This could include checking if the current bool is true or not or if the animation has been completed
     bool forward();
@@ -40,7 +42,7 @@ class Animation{
     // Each animation will have it's own overloaded next() function
     // Calling next() will check the current state of the animation continue it
     // This is done to avoid for loops so multiple animations can be run at one time
-    void next();
+    virtual void next() = 0;
 
     // Decode json file to get data for animation construction
     // THIS IS SUBJECT TO CHANGE
