@@ -12,6 +12,8 @@ Breathe::Breathe(int startingLed_, int range_, int totalTime_, int cycleTime_, i
     brightness = startingBrightness;
     up = true;
     down = false;
+
+    completed = false;
     
 
     calculateWait();

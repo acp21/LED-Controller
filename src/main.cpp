@@ -1,6 +1,5 @@
 // LED-Control
 // Written by Adam Pohl
-
 #define FASTLED_ESP8266_RAW_PIN_ORDER
 // Arduino include
 #include <Arduino.h>
@@ -105,8 +104,9 @@ void setup() {
   server.begin(); // Start server
 
   //Testing vectors
-  Fade * fadeptr = new Fade(0, 15, 50, 7, 200);
-  animations.push_back(fadeptr);
+  //Breathe * breathptr = new Breathe(0, 15, 50, 5, CRGB::Blue);
+  // animations.push_back(new Breathe(0, 15, 20, 5, CRGB::Blue));
+  animations.push_back(new Fade(0, 15, 50, 7, 200));
   
 }
 
@@ -115,12 +115,13 @@ void setup() {
 Trail trail = Trail(2, 10, 3, 0, NUM_LEDS, 171, 1, 255);
 Fade fade = Fade(0, 15, 50, 7, 200);
 Breathe breathe = Breathe(0, 15, 50, 5, CRGB::Blue);
+int animIndex = 0;
 
 void loop() {
   // Calls next() on head object
   // This simply calls next() on the next object in the linked list
   Serial.println("Loop");
-  animations.front() -> next();
+  animations[0] -> next();
 }
 
 // Polymorphic vectors http://www.cplusplus.com/forum/general/17754/

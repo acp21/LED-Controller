@@ -18,6 +18,7 @@ Trail::Trail(int pixelWidth_, int totalTime_, int cycleTime_, int startingLed_, 
     fade = fade_;
     fadeTime = fadeTime_;
     firstLoop = true;
+    completed = false;
 
     calculateWait();
 }
